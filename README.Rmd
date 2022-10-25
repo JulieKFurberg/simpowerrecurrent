@@ -15,29 +15,68 @@ knitr::opts_chunk$set(
 
 # Simulation-based sample size calculations for recurrent events with competing deaths
 
+## Download from Github
+
+```{r install}
+require(devtools)
+devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
+require(simpowerrecurrent)
+
+# A couple extra packages
+require(ggplot2)
+require(survival)
+require(mets)
+```
 
 
-## Example
+## Simulation of a single data set
 
-This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
-library(simpowerrecurrent)
-## basic example code
+mu0 <- function(time, a){a  * time^2}
+S0 <- function(time, b){b * time}
+
+
+times <- seq(0, 100, by = 25)
+
+cumhaz_mu <- data.frame(time = times,
+                        cumhaz = mu0(time = times, a = 0.1))
+
+cumhaz_S <- data.frame(time = times,
+                       cumhaz = S0(time = times, b = 0.01))
+# Visual
+ggplot(aes(x = time, y = cumhaz), data = cumhaz_mu) +
+  geom_line() + ggtitle("Mu_0(t) for recurrent events") +
+  geom_point()
+ggplot(aes(x = time, y = cumhaz), data = cumhaz_S) +
+  geom_line() + ggtitle("Lambda_0^D(t) for death") + geom_point()
+
+# Simulating a single data set
+sim1 <- simrecurprop(n = 100, 
+                     beta = 0,
+                     gamma = 0,
+                     mu0 = cumhaz_mu,
+                     Lam0D = cumhaz_S,
+                     crate = 0.01,
+                     accrualtime = 0,
+                     admincens = 8000)
+
+head(sim1)
+
+# Overview of the data set
+with(sim1, table(Z, status))
+
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
-```{r cars}
-summary(cars)
+## Esitimation of power for previous example
+
+```{r powerest}
+simres1 <- powerest(nsims = 100, n = 100, mu0 = cumhaz_mu, Lam0D = cumhaz_S, alpha = 0.05)
+
+simres1
+
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/v1/examples>.
 
-You can also embed plots, for example:
 
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.

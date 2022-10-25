@@ -1,7 +1,7 @@
 #' Function that simulates a single data set according to the proportional means
 #' and proportional hazards model
 #' 
-#' @param n TOtal sample size. Randomisation 1:1
+#' @param n Total sample size. Randomisation 1:1
 #' @param beta Treatment effect on recurrent events
 #' @param gamma Treatment effect on terminal events
 #' @param mu0 Reference rate for marginal mean. Data frame with times and mu0(times)
@@ -69,6 +69,11 @@ simrecurprop <- function(n,
   }
   else {sortboth <- dat_with_enroll}
   updated <- sortboth
+  
+  # Drop irrelevant variables
+  updated$status <- ifelse(updated$statusG == 3, 2, updated$statusG)
+  updated$Z <- updated$X1  
+  updated <- updated[, c("id", "start", "stop", "status", "Z")]
   
   return(updated)
 }

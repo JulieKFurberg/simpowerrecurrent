@@ -1,7 +1,7 @@
 #' Function that makes power approximation based on simulated data using \code{simrecurprop}
 #'
 #' @param nsims Total number of simulations
-#' @param n TOtal sample size. Randomisation 1:1
+#' @param n Total sample size. Randomisation 1:1
 #' @param beta Treatment effect on recurrent events
 #' @param gamma Treatment effect on terminal events
 #' @param mu0 Reference rate for marginal mean. Data frame with times and mu0(times)
@@ -32,20 +32,18 @@ powerest <- function(nsims = 1000,
   colnames(resmat) <- c("beta", "sebeta", "reject?", "pval")
   
   for (i in 1:nsims){
-    r[[i]] <- simRecurEnrollAdmin(n = n,
-                                  beta = beta,
-                                  gamma = gamma,
-                                  mu0 = mu0,
-                                  Lam0D = Lam0D,
-                                  crate = crate,
-                                  accrualtime = accrualtime,
-                                  admincens = admincens)
-    # Overview of single data set
-    dtable(r[[i]], ~ statusG + status + death, level = 2, response = 1)
+    r[[i]] <- simrecurprop(n = n,
+                           beta = beta,
+                           gamma = gamma,
+                           mu0 = mu0,
+                           Lam0D = Lam0D,
+                           crate = crate,
+                           accrualtime = accrualtime,
+                           admincens = admincens)
     
     # Result from fitting GL regression model
-    regmod[[i]] <- recreg(Event(start, stop, statusG, cens = (statusG == 0)) ~ X1 + cluster(id),
-                          data = r[[i]], cause = 1, death.code = 3, cens.code = 0)
+    regmod[[i]] <- recreg(Event(start, stop, status, cens = (statusG == 0)) ~ Z + cluster(id),
+                          data = r[[i]], cause = 1, death.code = 2, cens.code = 0)
     
     # Collecting results of interest
     resmat[i,] <- c(regmod[[i]]$coef,

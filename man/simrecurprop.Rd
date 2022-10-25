@@ -17,7 +17,7 @@ simrecurprop(
 )
 }
 \arguments{
-\item{n}{TOtal sample size. Randomisation 1:1}
+\item{n}{Total sample size. Randomisation 1:1}
 
 \item{beta}{Treatment effect on recurrent events}
 
