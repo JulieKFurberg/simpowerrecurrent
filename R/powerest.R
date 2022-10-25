@@ -42,7 +42,7 @@ powerest <- function(nsims = 1000,
                            admincens = admincens)
     
     # Result from fitting GL regression model
-    regmod[[i]] <- recreg(Event(start, stop, status, cens = (statusG == 0)) ~ Z + cluster(id),
+    regmod[[i]] <- recreg(Event(start, stop, status, cens = (status == 0)) ~ Z + cluster(id),
                           data = r[[i]], cause = 1, death.code = 2, cens.code = 0)
     
     # Collecting results of interest
