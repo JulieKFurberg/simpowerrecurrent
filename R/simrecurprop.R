@@ -30,10 +30,6 @@ simrecurprop <- function(n,
                                    beta1 = c(beta, 0),
                                    betad = c(gamma, 0))
   
-  # Overview
-  dtable(dat, ~ statusG + status + death, level = 2, response = 1)
-  
-  
   ###  Add uniform enrollment times  ###
   enroll <- runif(n, 0, accrualtime)
   
