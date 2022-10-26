@@ -23,7 +23,8 @@ knitr::opts_chunk$set(
 
 # simpowerrecurrent: Simulation-based sample size calculations for recurrent events with competing deaths
 
-Let $N^*(t)$ denote the expected number of recurrent events by time $t$ and let $D^*$ denote the time of death. Let $C$ denote the time of censoring. 
+Let $N^*(t)$ denote the expected number of recurrent events by time $t$ and let $D^*$ denote the time of death. 
+Let $C$ denote the time of censoring. 
 Due to right-censoring, $N(t) = N^*(t \wedge C)$ and $D = D^* \wedge C$ is observed.
 Moreover, the censoring indicator is observed, $\delta = I(D^* \leq C)$. 
 There is only a single binary treatment variable, $Z$.
