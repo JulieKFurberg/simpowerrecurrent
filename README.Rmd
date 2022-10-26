@@ -85,13 +85,17 @@ require(mets)
 The following example displays how to simulate data from the above model using the required input parameters.
 
 Here, we assume that $n=100$, and that
+
 $$
 \mu(t \mid Z) = 0.06 t^2 \exp(-0.2 Z), \quad \Lambda^D(t \mid Z) = 0.05 t \exp(-0.1 Z)
 $$
+
 Moreover, it is assumed that the cumulative hazard of being censored during the trial is, 
+
 $$
 \Lambda^C(t) = 0.03t.
 $$
+
 Furthermore, there is uniform accrual of the $100$ subjects during $10$ days. The study closed after $30$ days from the first enrollment. 
 
 ```{r example}

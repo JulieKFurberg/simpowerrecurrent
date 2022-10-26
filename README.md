@@ -77,7 +77,7 @@ require(devtools)
 #> Indlæser krævet pakke: usethis
 devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
 #> Downloading GitHub repo JulieKFurberg/simpowerrecurrent@HEAD
-#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\RtmpS0IAM8\remotes3c5c46a23b5a\JulieKFurberg-simpowerrecurrent-e35171f/DESCRIPTION' ... OK
+#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\RtmpespIW7\remotes4e6c3b747323\JulieKFurberg-simpowerrecurrent-4a16aaa/DESCRIPTION' ... OK
 #> * preparing 'simpowerrecurrent':
 #> * checking DESCRIPTION meta-information ... OK
 #> * checking for LF line-endings in source and make files and shell scripts
@@ -86,9 +86,20 @@ devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
 #>   WARNING: Added dependency on R >= 3.5.0 because serialized objects in
 #>   serialize/load version 3 cannot be read in older versions of R.
 #>   File(s) containing such objects:
-#>     'simpowerrecurrent/README_cache/gfm/powerest_c126d96b678c5142328e2ac542e83f0a.RData'
-#>     'simpowerrecurrent/README_cache/gfm/powerest_c126d96b678c5142328e2ac542e83f0a.rdx'
+#>     'simpowerrecurrent/README_cache/gfm/powerest_18ae680bc39f8bc5fd656653cd6518ad.RData'
+#>     'simpowerrecurrent/README_cache/gfm/powerest_18ae680bc39f8bc5fd656653cd6518ad.rdx'
+#>     'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_950a02ad4f8b113206c85d240af37217.RData'
+#>     'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_950a02ad4f8b113206c85d240af37217.rdx'
 #> * building 'simpowerrecurrent_0.0.0.9000.tar.gz'
+#> Advarsel i utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :
+#>   storing paths of more than 100 bytes is not portable:
+#>   'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_950a02ad4f8b113206c85d240af37217.RData'
+#> Advarsel i utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :
+#>   storing paths of more than 100 bytes is not portable:
+#>   'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_950a02ad4f8b113206c85d240af37217.rdb'
+#> Advarsel i utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :
+#>   storing paths of more than 100 bytes is not portable:
+#>   'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_950a02ad4f8b113206c85d240af37217.rdx'
 #> 
 require(simpowerrecurrent)
 #> Indlæser krævet pakke: simpowerrecurrent
@@ -115,13 +126,21 @@ require(mets)
 The following example displays how to simulate data from the above model
 using the required input parameters.
 
-Here, we assume that $n=100$, and that $$
+Here, we assume that $n=100$, and that
+
+$$
 \mu(t \mid Z) = 0.06 t^2 \exp(-0.2 Z), \quad \Lambda^D(t \mid Z) = 0.05 t \exp(-0.1 Z)
-$$ Moreover, it is assumed that the cumulative hazard of being censored
-during the trial is, $$
+$$
+
+Moreover, it is assumed that the cumulative hazard of being censored
+during the trial is,
+
+$$
 \Lambda^C(t) = 0.03t.
-$$ Furthermore, there is uniform accrual of the $100$ subjects during
-$10$ days. The study closed after $30$ days from the first enrollment.
+$$
+
+Furthermore, there is uniform accrual of the $100$ subjects during $10$
+days. The study closed after $30$ days from the first enrollment.
 
 ``` r
 mu0 <- function(time, a){a  * time^2}
