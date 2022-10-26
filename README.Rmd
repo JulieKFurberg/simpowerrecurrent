@@ -26,7 +26,7 @@ It is assumed that $C$ is independent of $Z$. Moreover, it is assumed that $N^*(
 It is assumed that the proportional means model of Ghosh and Lin (2002) holds, such that
 
 $$
-E(N(t) \mid Z) = \mu(t \mid Z) = \mu_0(t) \exp(\beta Z),
+E(N^*(t) \mid Z) = \mu(t \mid Z) = \mu_0(t) \exp(\beta Z),
 $$
 
 where $\mu_0(t)$ is the baseline mean function for recurrent events, and $\beta$ is the effect of treatment, $Z$, on recurrent events.

@@ -17,7 +17,7 @@ It is assumed that the proportional means model of Ghosh and Lin (2002)
 holds, such that
 
 $$
-E(N(t) \mid Z) = \mu(t \mid Z) = \mu_0(t) \exp(\beta Z),
+E(N^*(t) \mid Z) = \mu(t \mid Z) = \mu_0(t) \exp(\beta Z),
 $$
 
 where $\mu_0(t)$ is the baseline mean function for recurrent events, and
@@ -77,7 +77,7 @@ require(devtools)
 #> Indlæser krævet pakke: usethis
 devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
 #> Downloading GitHub repo JulieKFurberg/simpowerrecurrent@HEAD
-#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\RtmpcTWIkH\remotes1818163d4deb\JulieKFurberg-simpowerrecurrent-6415f50/DESCRIPTION' ... OK
+#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\RtmpALrXbI\remotes5b1c423977b9\JulieKFurberg-simpowerrecurrent-8b7a9b8/DESCRIPTION' ... OK
 #> * preparing 'simpowerrecurrent':
 #> * checking DESCRIPTION meta-information ... OK
 #> * checking for LF line-endings in source and make files and shell scripts
