@@ -7,13 +7,181 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+---
+output: github_document
+---
+
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
 )
 ```
 
-```{r setup}
-library(simpowerrecurrent)
+# simpowerrecurrent: Simulation-based sample size calculations for recurrent events with competing deaths
+
+Let $N^*(t)$ denote the expected number of recurrent events by time $t$ and let $D^*$ denote the time of death. Let $C$ denote the time of censoring. 
+Due to right-censoring, $N(t) = N^*(t \wedge C)$ and $D = D^* \wedge C$ is observed.
+Moreover, the censoring indicator is observed, $\delta = I(D^* \leq C)$. 
+There is only a single binary treatment variable, $Z$.
+For each of the $n$ subjects, the following is observed $X_i = \lbrace N_i(\cdot), D_i, \delta_i, Z_i \rbrace$, $i=1, \ldots, n$. 
+$X_i$ are assumed to independent and identically distributed replicated of $X = \lbrace N(\cdot), D, \delta, Z \rbrace$. 
+It is assumed that $C$ is independent of $Z$. Moreover, it is assumed that $N^*(\cdot)$ and $D^*$ are conditionally independent given $Z$.  
+
+
+It is assumed that the proportional means model of Ghosh and Lin (2002) holds, such that
+
+$$
+E(N(t) \mid Z) = \mu(t \mid Z) = \mu_0(t) \exp(\beta Z),
+$$
+
+where $\mu_0(t)$ is the baseline mean function for recurrent events, and $\beta$ is the effect of treatment, $Z$, on recurrent events.
+
+Moreover, it is assumed that Cox's proportional hazard model hold for the terminal events, such that
+
+$$
+\Lambda^D(t\mid Z) = \Lambda_0^D(t) \exp(\gamma Z),
+$$
+
+where $\Lambda_0^D(t)$ is the cumulative baseline hazard for death, and $\gamma$ is the effect of treatment, $Z$, on death. 
+
+
+In order to simulate a single data set according to these models, the following should be specified
+
+- The total sample size, $n$. It is assumed that the randomisation is 1:1.
+
+- A set of values for $(t, \mu_0(t))$, i.e. the expected number of events in the reference group at times $t$.
+
+- A set of values for $(t, \Lambda_0^D(t))$, i.e. the cumulative hazard of death in the reference group at times $t$.
+
+- The censoring rate through the trial, such that $\Lambda^C(t) = ct$. Here, $c$ is supplied. 
+
+- The log-mean ratio, $\beta$, i.e. the effect of treatment on recurrent events.
+
+- The log-hazard ratio, $\gamma$, i.e. the effect of treatment on death.
+
+- Max enrollment day after randomisation, $\tau_{a}$. Uniform accrual until $\tau_{a}$ is assumed.
+
+- Total length of study duration, $\tau_{max}$. Administrative censoring occurs at $\tau_{max}$.
+
+In order to perform a power calculation or equivalently estimate a sample size, the following should additionally be specified
+
+- The total number of simulations
+
+- The significance level, $\alpha$
+
+
+## Download from Github
+
+The functions can be downloaded from GitHub using the below code,
+```{r install}
+require(devtools)
+devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
+require(simpowerrecurrent)
+
+# A couple extra packages
+require(ggplot2)
+require(survival)
+require(mets)
 ```
+
+
+## Simulation of a single data set
+
+The following example displays how to simulate data from the above model using the required input parameters.
+
+Here, we assume that $n=100$, and that
+$$
+\mu(t \mid Z) = 0.06 t^2 \exp(-0.2 Z), \quad \Lambda^D(t \mid Z) = 0.05 t \exp(-0.1 Z)
+$$
+Moreover, it is assumed that the cumulative hazard of being censored during the trial is, 
+$$
+\Lambda^C(t) = 0.03t.
+$$
+Furthermore, there is uniform accrual of the $100$ subjects during $10$ days. The study closed after $30$ days from the first enrollment. 
+
+```{r example}
+mu0 <- function(time, a){a  * time^2}
+LamD0 <- function(time, b){b * time}
+
+
+times <- seq(0, 100, by = 25)
+
+cumhaz_mu <- data.frame(time = times,
+                        cumhaz = mu0(time = times, a = 0.07))
+
+cumhaz_S <- data.frame(time = times,
+                       cumhaz = LamD0(time = times, b = 0.05))
+# Visual
+ggplot(aes(x = time, y = cumhaz), data = cumhaz_mu) +
+  geom_line() + ggtitle(expression(mu[0]*"(t) for recurrent events")) +
+  geom_point() + theme_bw()
+
+ggplot(aes(x = time, y = cumhaz), data = cumhaz_S) +
+  geom_line() + ggtitle(expression(Lambda[0]^D*"(t) for terminal events")) + 
+  geom_point() + theme_bw()
+
+# Simulating a single data set
+set.seed(1234)
+sim1 <- simrecurprop(n = 100, 
+                     beta = -0.2,
+                     gamma = -0.1,
+                     mu0 = cumhaz_mu,
+                     Lam0D = cumhaz_S,
+                     crate = 0.03,
+                     accrualtime = 10,
+                     admincens = 30)
+
+head(sim1)
+
+# Overview of the data set
+with(sim1, table(Z, status))
+
+```
+
+In the output data set, the following variables are included, 
+ 
+* `id`: The subject id 
+* `start`: The start time of the record for individual i. Counting process style
+* `stop`: The stop time of the record for individual i. Counting process style
+* `status`: Status at the stopping time for subject i for record j. 
+* `Z`: The binary treatment covariate
+
+
+## Esitimation of power for previous example
+
+```{r powerest, cache = T}
+simres1 <- powerest(nsims = 100, 
+                    n = 100, 
+                    beta = -0.2,
+                    gamma = -0.1,
+                    mu0 = cumhaz_mu,
+                    Lam0D = cumhaz_S, 
+                    alpha = 0.05, 
+                    crate = 0.03,
+                    accrualtime = 10,
+                    admincens = 30)
+
+head(simres1$resmat)
+
+simres1$power
+simres1$betamean
+simres1$betasemean
+
+```
+
+The results from fitting a Ghosh and Lin model to each simulated data set is contained in the data.frame, `resmat`, with the columns `beta`, `sebeta`, `reject?` and `pval`. 
+There is one row per simulation in `resmat`. 
+The results correspond to the estimated $\hat{\beta}$ and $\text{se}(\hat{\beta})$ from the Ghosh and Lin model as well as the decision to reject the null or not (alongside a two-sided p-value). 
+Here, the hypotheses of interest are, 
+
+$$
+H_0: \beta = 0, \quad H_a: \beta \neq 0.
+$$
+
+The approximate power is contained in `power`. The average of all $\hat{\beta}$ across simulations is contained in `betamean`. 
+The average of the standard errors for $\hat{\beta}$ across simulations is contained in `betasemean`.
+

@@ -24,15 +24,19 @@ It is assumed that $C$ is independent of $Z$. Moreover, it is assumed that $N^*(
 
 
 It is assumed that the proportional means model of Ghosh and Lin (2002) holds, such that
+
 $$
 E(N(t) \mid Z) = \mu(t \mid Z) = \mu_0(t) \exp(\beta Z),
 $$
+
 where $\mu_0(t)$ is the baseline mean function for recurrent events, and $\beta$ is the effect of treatment, $Z$, on recurrent events.
 
 Moreover, it is assumed that Cox's proportional hazard model hold for the terminal events, such that
+
 $$
 \Lambda^D(t\mid Z) = \Lambda_0^D(t) \exp(\gamma Z),
 $$
+
 where $\Lambda_0^D(t)$ is the cumulative baseline hazard for death, and $\gamma$ is the effect of treatment, $Z$, on death. 
 
 
@@ -79,6 +83,17 @@ require(mets)
 ## Simulation of a single data set
 
 The following example displays how to simulate data from the above model using the required input parameters.
+
+Here, we assume that $n=100$, and that
+$$
+\mu(t \mid Z) = 0.06 t^2 \exp(-0.2 Z), \quad \Lambda^D(t \mid Z) = 0.05 t \exp(-0.1 Z)
+$$
+Moreover, it is assumed that the cumulative hazard of being censored during the trial is, 
+$$
+\Lambda^C(t) = 0.03t.
+$$
+Furthermore, there is uniform accrual of the $100$ subjects during $10$ days. The study closed after $30$ days from the first enrollment. 
+
 ```{r example}
 mu0 <- function(time, a){a  * time^2}
 LamD0 <- function(time, b){b * time}
@@ -87,28 +102,29 @@ LamD0 <- function(time, b){b * time}
 times <- seq(0, 100, by = 25)
 
 cumhaz_mu <- data.frame(time = times,
-                        cumhaz = mu0(time = times, a = 0.1))
+                        cumhaz = mu0(time = times, a = 0.07))
 
 cumhaz_S <- data.frame(time = times,
-                       cumhaz = LamD0(time = times, b = 0.01))
+                       cumhaz = LamD0(time = times, b = 0.05))
 # Visual
 ggplot(aes(x = time, y = cumhaz), data = cumhaz_mu) +
   geom_line() + ggtitle(expression(mu[0]*"(t) for recurrent events")) +
-  geom_point()
+  geom_point() + theme_bw()
 
 ggplot(aes(x = time, y = cumhaz), data = cumhaz_S) +
   geom_line() + ggtitle(expression(Lambda[0]^D*"(t) for terminal events")) + 
-  geom_point()
+  geom_point() + theme_bw()
 
 # Simulating a single data set
+set.seed(1234)
 sim1 <- simrecurprop(n = 100, 
                      beta = -0.2,
                      gamma = -0.1,
                      mu0 = cumhaz_mu,
                      Lam0D = cumhaz_S,
-                     crate = 0.01,
+                     crate = 0.03,
                      accrualtime = 10,
-                     admincens = 100)
+                     admincens = 30)
 
 head(sim1)
 
@@ -136,21 +152,27 @@ simres1 <- powerest(nsims = 100,
                     mu0 = cumhaz_mu,
                     Lam0D = cumhaz_S, 
                     alpha = 0.05, 
-                    crate = 0.01,
+                    crate = 0.03,
                     accrualtime = 10,
-                    admincens = 100)
+                    admincens = 30)
 
-simres1
+head(simres1$resmat)
+
+simres1$power
+simres1$betamean
+simres1$betasemean
 
 ```
 
-The results from fitting a Ghosh and Lin model to each simulated data set is contained in the data.frame, `resmat`, with the columns `beta`, `sebeta`, `reject` and `pval`. 
+The results from fitting a Ghosh and Lin model to each simulated data set is contained in the data.frame, `resmat`, with the columns `beta`, `sebeta`, `reject?` and `pval`. 
 There is one row per simulation in `resmat`. 
 The results correspond to the estimated $\hat{\beta}$ and $\text{se}(\hat{\beta})$ from the Ghosh and Lin model as well as the decision to reject the null or not (alongside a two-sided p-value). 
 Here, the hypotheses of interest are, 
+
 $$
 H_0: \beta = 0, \quad H_a: \beta \neq 0.
 $$
+
 The approximate power is contained in `power`. The average of all $\hat{\beta}$ across simulations is contained in `betamean`. 
 The average of the standard errors for $\hat{\beta}$ across simulations is contained in `betasemean`.
 
