@@ -20,7 +20,7 @@ Moreover, the censoring indicator is observed, $\delta = I(D^* \leq C)$.
 There is only a single binary treatment variable, $Z$.
 For each of the $n$ subjects, the following is observed $X_i = \lbrace N_i(\cdot), D_i, \delta_i, Z_i \rbrace$, $i=1, \ldots, n$. 
 $X_i$ are assumed to independent and identically distributed replicated of $X = \lbrace N(\cdot), D, \delta, Z \rbrace$. 
-It is assumed that $C$ is independent of $Z$. Moreover, it is assumed that $N^*(\cdot)$ and $D^*$ are conditionally independent given $Z$.  
+It is assumed that $C$ is independent of $Z$.
 
 
 It is assumed that the proportional means model of Ghosh and Lin (2002) holds, such that

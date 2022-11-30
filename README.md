@@ -10,8 +10,7 @@ treatment variable, $Z$. For each of the $n$ subjects, the following is
 observed $X_i = \lbrace N_i(\cdot), D_i, \delta_i, Z_i \rbrace$,
 $i=1, \ldots, n$. $X_i$ are assumed to independent and identically
 distributed replicated of $X = \lbrace N(\cdot), D, \delta, Z \rbrace$.
-It is assumed that $C$ is independent of $Z$. Moreover, it is assumed
-that $N^*(\cdot)$ and $D^*$ are conditionally independent given $Z$.
+It is assumed that $C$ is independent of $Z$.
 
 It is assumed that the proportional means model of Ghosh and Lin (2002)
 holds, such that
@@ -77,7 +76,7 @@ require(devtools)
 #> Indlæser krævet pakke: usethis
 devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
 #> Downloading GitHub repo JulieKFurberg/simpowerrecurrent@HEAD
-#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\RtmpALrXbI\remotes5b1c423977b9\JulieKFurberg-simpowerrecurrent-8b7a9b8/DESCRIPTION' ... OK
+#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\RtmpC4gvD8\remotes586c57f225ba\JulieKFurberg-simpowerrecurrent-0118413/DESCRIPTION' ... OK
 #> * preparing 'simpowerrecurrent':
 #> * checking DESCRIPTION meta-information ... OK
 #> * checking for LF line-endings in source and make files and shell scripts
@@ -118,7 +117,7 @@ require(mets)
 #> Det følgende objekt er maskeret fra 'package:ggplot2':
 #> 
 #>     vars
-#> mets version 1.3.0
+#> mets version 1.3.1
 ```
 
 ## Simulation of a single data set
