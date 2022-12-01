@@ -76,7 +76,7 @@ require(devtools)
 #> Indlæser krævet pakke: usethis
 devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
 #> Downloading GitHub repo JulieKFurberg/simpowerrecurrent@HEAD
-#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\RtmpC4gvD8\remotes586c57f225ba\JulieKFurberg-simpowerrecurrent-0118413/DESCRIPTION' ... OK
+#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\Rtmpu47zJQ\remotes4d387ab9569a\JulieKFurberg-simpowerrecurrent-c9109ce/DESCRIPTION' ... OK
 #> * preparing 'simpowerrecurrent':
 #> * checking DESCRIPTION meta-information ... OK
 #> * checking for LF line-endings in source and make files and shell scripts
