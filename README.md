@@ -76,7 +76,7 @@ require(devtools)
 #> Indlæser krævet pakke: usethis
 devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
 #> Downloading GitHub repo JulieKFurberg/simpowerrecurrent@HEAD
-#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\Rtmpu47zJQ\remotes4d387ab9569a\JulieKFurberg-simpowerrecurrent-c9109ce/DESCRIPTION' ... OK
+#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\Rtmp6x53iH\remotesc5864e1597\JulieKFurberg-simpowerrecurrent-727d4b7/DESCRIPTION' ... OK
 #> * preparing 'simpowerrecurrent':
 #> * checking DESCRIPTION meta-information ... OK
 #> * checking for LF line-endings in source and make files and shell scripts
@@ -118,6 +118,19 @@ require(mets)
 #> 
 #>     vars
 #> mets version 1.3.1
+require(dplyr)
+#> Indlæser krævet pakke: dplyr
+#> 
+#> Vedhæfter pakke: 'dplyr'
+#> Det følgende objekt er maskeret fra 'package:lava':
+#> 
+#>     vars
+#> De følgende objekter er maskerede fra 'package:stats':
+#> 
+#>     filter, lag
+#> De følgende objekter er maskerede fra 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 ```
 
 ## Simulation of a single data set
@@ -128,7 +141,7 @@ using the required input parameters.
 Here, we assume that $n=100$, and that
 
 $$
-\mu(t \mid Z) = 0.06 t^2 \exp(-0.2 Z), \quad \Lambda^D(t \mid Z) = 0.05 t \exp(-0.1 Z)
+\mu(t \mid Z) = 0.06 t^2 \exp(-0.1 Z), \quad \Lambda^D(t \mid Z) = 0.05 t \exp(-0.1 Z)
 $$
 
 Moreover, it is assumed that the cumulative hazard of being censored
@@ -173,7 +186,7 @@ ggplot(aes(x = time, y = cumhaz), data = cumhaz_S) +
 # Simulating a single data set
 set.seed(1234)
 sim1 <- simrecurprop(n = 100, 
-                     beta = -0.2,
+                     beta = -0.1,
                      gamma = -0.1,
                      mu0 = cumhaz_mu,
                      Lam0D = cumhaz_S,
@@ -183,19 +196,19 @@ sim1 <- simrecurprop(n = 100,
 
 head(sim1)
 #>   id    start      stop status Z
-#> 1  1 9.030126  9.213846      1 0
-#> 2  1 9.213846  9.299344      1 0
-#> 3  1 9.299344  9.346337      1 0
-#> 4  1 9.346337  9.919655      1 0
-#> 5  1 9.919655  9.934885      1 0
-#> 6  1 9.934885 11.057786      1 0
+#> 1  1 8.329633  8.513353      1 0
+#> 2  1 8.513353  8.598851      1 0
+#> 3  1 8.598851  8.645844      1 0
+#> 4  1 8.645844  9.219162      1 0
+#> 5  1 9.219162  9.234392      1 0
+#> 6  1 9.234392 10.357293      1 0
 
 # Overview of the data set
 with(sim1, table(Z, status))
 #>    status
 #> Z     0   1   2
-#>   0  24 999  30
-#>   1  21 830  24
+#>   0  25 922  30
+#>   1  20 906  25
 ```
 
 In the output data set, the following variables are included,
@@ -213,7 +226,7 @@ In the output data set, the following variables are included,
 ``` r
 simres1 <- powerest(nsims = 100, 
                     n = 100, 
-                    beta = -0.2,
+                    beta = -0.1,
                     gamma = -0.1,
                     mu0 = cumhaz_mu,
                     Lam0D = cumhaz_S, 
@@ -223,20 +236,20 @@ simres1 <- powerest(nsims = 100,
                     admincens = 30)
 
 head(simres1$resmat)
-#>            beta    sebeta reject?         pval
-#> [1,] -0.1790835 0.1658795       0 0.2803201543
-#> [2,] -0.2666757 0.1670082       0 0.1103144028
-#> [3,] -0.5067710 0.1459409       1 0.0005157491
-#> [4,] -0.2689624 0.1870898       0 0.1505444535
-#> [5,] -0.2021331 0.1746448       0 0.2471108580
-#> [6,] -0.3094645 0.1412668       1 0.0284780307
+#>             beta     sebeta reject?         pval
+#> [1,] -0.16501903 0.04608256       1 0.0003423561
+#> [2,] -0.09359667 0.04562104       1 0.0402074194
+#> [3,] -0.10322747 0.03662790       1 0.0048282473
+#> [4,] -0.14270314 0.04260859       1 0.0008105587
+#> [5,] -0.20912507 0.04753332       1 0.0000108477
+#> [6,] -0.14133007 0.04441353       1 0.0014619107
 
 simres1$power
-#> [1] 0.28
+#> [1] 0.65
 simres1$betamean
-#> [1] -0.2113135
+#> [1] -0.1113694
 simres1$betasemean
-#> [1] 0.1636032
+#> [1] 0.0438811
 ```
 
 The results from fitting a Ghosh and Lin model to each simulated data

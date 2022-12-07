@@ -23,14 +23,13 @@ knitr::opts_chunk$set(
 
 # simpowerrecurrent: Simulation-based sample size calculations for recurrent events with competing deaths
 
-Let $N^*(t)$ denote the expected number of recurrent events by time $t$ and let $D^*$ denote the time of death. 
-Let $C$ denote the time of censoring. 
+Let $N^*(t)$ denote the expected number of recurrent events by time $t$ and let $D^*$ denote the time of death. Let $C$ denote the time of censoring. 
 Due to right-censoring, $N(t) = N^*(t \wedge C)$ and $D = D^* \wedge C$ is observed.
 Moreover, the censoring indicator is observed, $\delta = I(D^* \leq C)$. 
 There is only a single binary treatment variable, $Z$.
 For each of the $n$ subjects, the following is observed $X_i = \lbrace N_i(\cdot), D_i, \delta_i, Z_i \rbrace$, $i=1, \ldots, n$. 
 $X_i$ are assumed to independent and identically distributed replicated of $X = \lbrace N(\cdot), D, \delta, Z \rbrace$. 
-It is assumed that $C$ is independent of $Z$. Moreover, it is assumed that $N^*(\cdot)$ and $D^*$ are conditionally independent given $Z$.  
+It is assumed that $C$ is independent of $Z$.
 
 
 It is assumed that the proportional means model of Ghosh and Lin (2002) holds, such that
@@ -87,6 +86,7 @@ require(simpowerrecurrent)
 require(ggplot2)
 require(survival)
 require(mets)
+require(dplyr)
 ```
 
 
@@ -97,7 +97,7 @@ The following example displays how to simulate data from the above model using t
 Here, we assume that $n=100$, and that
 
 $$
-\mu(t \mid Z) = 0.06 t^2 \exp(-0.2 Z), \quad \Lambda^D(t \mid Z) = 0.05 t \exp(-0.1 Z)
+\mu(t \mid Z) = 0.06 t^2 \exp(-0.1 Z), \quad \Lambda^D(t \mid Z) = 0.05 t \exp(-0.1 Z)
 $$
 
 Moreover, it is assumed that the cumulative hazard of being censored during the trial is, 
@@ -132,7 +132,7 @@ ggplot(aes(x = time, y = cumhaz), data = cumhaz_S) +
 # Simulating a single data set
 set.seed(1234)
 sim1 <- simrecurprop(n = 100, 
-                     beta = -0.2,
+                     beta = -0.1,
                      gamma = -0.1,
                      mu0 = cumhaz_mu,
                      Lam0D = cumhaz_S,
@@ -161,7 +161,7 @@ In the output data set, the following variables are included,
 ```{r powerest, cache = T}
 simres1 <- powerest(nsims = 100, 
                     n = 100, 
-                    beta = -0.2,
+                    beta = -0.1,
                     gamma = -0.1,
                     mu0 = cumhaz_mu,
                     Lam0D = cumhaz_S, 
