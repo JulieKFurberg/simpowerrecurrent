@@ -50,7 +50,7 @@ powerest <- function(nsims = 1000,
     
     # Result from fitting GL regression model 
     regmod[[i]] <- recreg(Event(start2, stop2, status) ~ Z + cluster(id), 
-                          data = r[[i]], cause = 1, death.code = 3, cens.code = 0)
+                          data = r[[i]], cause = 1, death.code = 2, cens.code = 0)
     
     # Collecting results of interest
     resmat[i,] <- c(regmod[[i]]$coef,
