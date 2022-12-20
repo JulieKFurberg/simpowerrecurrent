@@ -76,7 +76,7 @@ require(devtools)
 #> Indlæser krævet pakke: usethis
 devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
 #> Downloading GitHub repo JulieKFurberg/simpowerrecurrent@HEAD
-#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\Rtmp6x53iH\remotesc5864e1597\JulieKFurberg-simpowerrecurrent-727d4b7/DESCRIPTION' ... OK
+#> * checking for file 'C:\Users\jukf\AppData\Local\Temp\RtmpCAHh4D\remotes454787b696a\JulieKFurberg-simpowerrecurrent-f64fad1/DESCRIPTION' ... OK
 #> * preparing 'simpowerrecurrent':
 #> * checking DESCRIPTION meta-information ... OK
 #> * checking for LF line-endings in source and make files and shell scripts
@@ -85,20 +85,20 @@ devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
 #>   WARNING: Added dependency on R >= 3.5.0 because serialized objects in
 #>   serialize/load version 3 cannot be read in older versions of R.
 #>   File(s) containing such objects:
-#>     'simpowerrecurrent/README_cache/gfm/powerest_18ae680bc39f8bc5fd656653cd6518ad.RData'
-#>     'simpowerrecurrent/README_cache/gfm/powerest_18ae680bc39f8bc5fd656653cd6518ad.rdx'
-#>     'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_950a02ad4f8b113206c85d240af37217.RData'
-#>     'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_950a02ad4f8b113206c85d240af37217.rdx'
+#>     'simpowerrecurrent/README_cache/gfm/powerest_0168155057c9ac1f04b2b162c0500862.RData'
+#>     'simpowerrecurrent/README_cache/gfm/powerest_0168155057c9ac1f04b2b162c0500862.rdx'
+#>     'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_00b84fef06e4c5fd5d30da9f63d1d6ba.RData'
+#>     'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_00b84fef06e4c5fd5d30da9f63d1d6ba.rdx'
 #> * building 'simpowerrecurrent_0.0.0.9000.tar.gz'
 #> Advarsel i utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :
 #>   storing paths of more than 100 bytes is not portable:
-#>   'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_950a02ad4f8b113206c85d240af37217.RData'
+#>   'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_00b84fef06e4c5fd5d30da9f63d1d6ba.RData'
 #> Advarsel i utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :
 #>   storing paths of more than 100 bytes is not portable:
-#>   'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_950a02ad4f8b113206c85d240af37217.rdb'
+#>   'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_00b84fef06e4c5fd5d30da9f63d1d6ba.rdb'
 #> Advarsel i utils::tar(filepath, pkgname, compression = compression, compression_level = 9L,  :
 #>   storing paths of more than 100 bytes is not portable:
-#>   'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_950a02ad4f8b113206c85d240af37217.rdx'
+#>   'simpowerrecurrent/vignettes/simpowerrecurrent_cache/html/powerest_00b84fef06e4c5fd5d30da9f63d1d6ba.rdx'
 #> 
 require(simpowerrecurrent)
 #> Indlæser krævet pakke: simpowerrecurrent
@@ -221,7 +221,7 @@ In the output data set, the following variables are included,
 -   `status`: Status at the stopping time for subject i for record j.
 -   `Z`: The binary treatment covariate
 
-## Esitimation of power for previous example
+## Estimation of power for previous example
 
 ``` r
 simres1 <- powerest(nsims = 100, 
@@ -236,20 +236,20 @@ simres1 <- powerest(nsims = 100,
                     admincens = 30)
 
 head(simres1$resmat)
-#>             beta     sebeta reject?         pval
-#> [1,] -0.16501903 0.04608256       1 0.0003423561
-#> [2,] -0.09359667 0.04562104       1 0.0402074194
-#> [3,] -0.10322747 0.03662790       1 0.0048282473
-#> [4,] -0.14270314 0.04260859       1 0.0008105587
-#> [5,] -0.20912507 0.04753332       1 0.0000108477
-#> [6,] -0.14133007 0.04441353       1 0.0014619107
+#>              beta    sebeta reject?       pval
+#> [1,] -0.008535714 0.1703983       0 0.96004850
+#> [2,] -0.311417513 0.1466871       1 0.03375334
+#> [3,]  0.001625712 0.1514896       0 0.99143766
+#> [4,] -0.356570420 0.1492128       1 0.01686321
+#> [5,] -0.218203859 0.1600075       0 0.17265874
+#> [6,] -0.238368925 0.1640195       0 0.14614148
 
 simres1$power
-#> [1] 0.65
+#> [1] 0.09
 simres1$betamean
-#> [1] -0.1113694
+#> [1] -0.04806245
 simres1$betasemean
-#> [1] 0.0438811
+#> [1] 0.1555369
 ```
 
 The results from fitting a Ghosh and Lin model to each simulated data

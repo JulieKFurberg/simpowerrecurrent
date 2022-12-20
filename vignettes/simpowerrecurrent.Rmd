@@ -156,9 +156,9 @@ In the output data set, the following variables are included,
 * `Z`: The binary treatment covariate
 
 
-## Esitimation of power for previous example
+## Estimation of power for previous example
 
-```{r powerest, cache = T}
+```{r powerest}
 simres1 <- powerest(nsims = 100, 
                     n = 100, 
                     beta = -0.1,
