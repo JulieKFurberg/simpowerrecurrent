@@ -1,5 +1,5 @@
 ---
-title: "simpowerrecurrent"
+title: "simpowerrecurrent: Simulation-based sample size calculations for recurrent events with competing deaths"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{simpowerrecurrent}
@@ -11,17 +11,33 @@ vignette: >
 output: github_document
 ---
 
+<style type="text/css">
+  body{
+  font-size: 8pt;
+}
+
+h1{
+  font-size: 12pt;
+}
+
+h2,h3,h4,h5,h6{
+  font-size: 10pt;
+}
+</style>
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  fig.width=12, 
+  fig.height=8
 )
 ```
 
-# simpowerrecurrent: Simulation-based sample size calculations for recurrent events with competing deaths
+# Introduction
 
 Let $N^*(t)$ denote the expected number of recurrent events by time $t$ and let $D^*$ denote the time of death. Let $C$ denote the time of censoring. 
 Due to right-censoring, $N(t) = N^*(t \wedge C)$ and $D = D^* \wedge C$ is observed.
@@ -77,9 +93,9 @@ In order to perform a power calculation or equivalently estimate a sample size, 
 ## Download from Github
 
 The functions can be downloaded from GitHub using the below code,
-```{r install}
-require(devtools)
-devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
+```{r install, warning = F, error = T, message = F}
+# require(devtools)
+# devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
 require(simpowerrecurrent)
 
 # A couple extra packages
