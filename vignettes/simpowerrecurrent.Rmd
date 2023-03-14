@@ -32,8 +32,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%",
-  fig.width=12, 
-  fig.height=8
+  fig.width=8, 
+  fig.height=6
 )
 ```
 
