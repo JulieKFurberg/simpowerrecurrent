@@ -32,8 +32,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%",
-  fig.width=8, 
-  fig.height=6
+  fig.width=6, 
+  fig.height=4
 )
 ```
 
@@ -44,7 +44,7 @@ Due to right-censoring, $N(t) = N^*(t \wedge C)$ and $D = D^* \wedge C$ is obser
 Moreover, the censoring indicator is observed, $\delta = I(D^* \leq C)$. 
 There is only a single binary treatment variable, $Z$.
 For each of the $n$ subjects, the following is observed $X_i = \lbrace N_i(\cdot), D_i, \delta_i, Z_i \rbrace$, $i=1, \ldots, n$. 
-$X_i$ are assumed to independent and identically distributed replicated of $X = \lbrace N(\cdot), D, \delta, Z \rbrace$. 
+$X_i$ are assumed to be independent and identically distributed replicates of $X = \lbrace N(\cdot), D, \delta, Z \rbrace$. 
 It is assumed that $C$ is independent of $Z$.
 
 
@@ -56,7 +56,7 @@ $$
 
 where $\mu_0(t)$ is the baseline mean function for recurrent events, and $\beta$ is the effect of treatment, $Z$, on recurrent events.
 
-Moreover, it is assumed that Cox's proportional hazard model hold for the terminal events, such that
+Moreover, it is assumed that Cox's proportional hazard model (1972) hold for the terminal events, such that
 
 $$
 \Lambda^D(t\mid Z) = \Lambda_0^D(t) \exp(\gamma Z),
@@ -94,11 +94,11 @@ In order to perform a power calculation or equivalently estimate a sample size, 
 
 The functions can be downloaded from GitHub using the below code,
 ```{r install, warning = F, error = T, message = F}
-# require(devtools)
-# devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
+#require(devtools)
+#devtools::install_github("JulieKFurberg/simpowerrecurrent", force = TRUE)
 require(simpowerrecurrent)
 
-# A couple extra packages
+# A couple of extra packages
 require(ggplot2)
 require(survival)
 require(mets)
@@ -113,7 +113,7 @@ The following example displays how to simulate data from the above model using t
 Here, we assume that $n=100$, and that
 
 $$
-\mu(t \mid Z) = 0.06 t^2 \exp(-0.1 Z), \quad \Lambda^D(t \mid Z) = 0.05 t \exp(-0.1 Z)
+\mu(t \mid Z) = 0.07 t^2 \exp(-0.1 Z), \quad \Lambda^D(t \mid Z) = 0.05 t \exp(-0.1 Z)
 $$
 
 Moreover, it is assumed that the cumulative hazard of being censored during the trial is, 
