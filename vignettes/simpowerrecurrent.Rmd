@@ -13,15 +13,15 @@ output: github_document
 
 <style type="text/css">
   body{
-  font-size: 8pt;
+  font-size: 10pt;
 }
 
 h1{
-  font-size: 12pt;
+  font-size: 14pt;
 }
 
 h2,h3,h4,h5,h6{
-  font-size: 10pt;
+  font-size: 12pt;
 }
 </style>
 
@@ -99,10 +99,7 @@ The functions can be downloaded from GitHub using the below code,
 require(simpowerrecurrent)
 
 # A couple of extra packages
-require(ggplot2)
-require(survival)
-require(mets)
-require(dplyr)
+require(ggplot2); require(survival); require(mets); require(dplyr)
 ```
 
 
@@ -127,7 +124,6 @@ Furthermore, there is uniform accrual of the $100$ subjects during $10$ days. Th
 ```{r example}
 mu0 <- function(time, a){a  * time^2}
 LamD0 <- function(time, b){b * time}
-
 
 times <- seq(0, 100, by = 25)
 
